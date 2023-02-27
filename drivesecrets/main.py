@@ -7,6 +7,7 @@ from typing import Iterable
 from google.colab import drive
 
 log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 GDRIVE_MOUNT_POINT = "/content/gdrive"
 DEFAULT_BASE_DIRECTORY_CANDIDATES = (
