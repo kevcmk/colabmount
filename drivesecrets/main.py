@@ -18,10 +18,16 @@ DEFAULT_BASE_DIRECTORY_CANDIDATES = (
 def get_secret(
     filename: str,
     base_directory_candidates: Iterable[str] = DEFAULT_BASE_DIRECTORY_CANDIDATES,
+    gdrive_mount_point: str = GDRIVE_MOUNT_POINT,
 ) -> str:
-    drive.mount(GDRIVE_MOUNT_POINT)
+    drive.mount(gdrive_mount_point)
 
     for base_directory_candidate in base_directory_candidates:
+        assert base_directory_candidate.startswith(
+            GDRIVE_MOUNT_POINT
+        ), "Base directory candidates must be subdirectories of the gdrive mount point."
+        assert isinstance(base_directory_candidate, str)
+
         log.debug(f"Checking for Google Drive directory: {base_directory_candidate}")
         if os.path.isdir(base_directory_candidate):
             log.debug(f"Found Google Drive directory: {base_directory_candidate}")
@@ -48,5 +54,9 @@ def get_secret(
     with open(secret_path, "w") as f:
         f.write(secret_to_store)
         log.info("Secret saved.")
+        for color in ("\033[91m", "\033[92m", "\033[94m"):
+            print(
+                color + "\x1B[1m" + "Please delete the output of this cell." + "\x1b[0m"
+            )
 
     return secret_to_store
