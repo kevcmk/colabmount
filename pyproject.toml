@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "drivesecrets"
-version = "0.0.0"
+version = "0.0.1"
 description = "Save secrets in your google drive to secure your Colaboratory notebooks."
 authors = ["Kevin Katz <contact@kevinkatz.io>"]
 
