@@ -5,7 +5,6 @@ description = "Save secrets in your google drive to secure your Colaboratory not
 authors = ["Kevin Katz <contact@kevinkatz.io>"]
 
 [tool.poetry.dependencies]
-python-osc = "^1.8.0"
 google-colab = "^1.0.0"
 
 [build-system]
