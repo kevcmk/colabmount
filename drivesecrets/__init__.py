@@ -1,3 +1,3 @@
-__version__ = "0.1.0"
+__version__ = "0.0.3"
 
-from drivesecrets import get_secret
+from .drivesecrets import get_secret

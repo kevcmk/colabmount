@@ -15,6 +15,8 @@ Don't store secrets in plaintext in Colaboratory notebooks. Instead, store them 
 
 The first time that get_secret is called, you will be prompted for the secret you'd like to save. Input it and it will be saved.
 
+The second time it is called, it'll just be returned as plaintext.
+
 If you make a mistake, delete this file from your Google drive and re-invoke the function.
 
 ## Important
