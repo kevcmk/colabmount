@@ -42,11 +42,11 @@ def get_secret(
     secret_path = os.path.join(google_drive_base, filename)
 
     if os.path.exists(secret_path):
-        log.info(f"Found secret at {secret_path}. Returning it now.")
+        print(f"Found secret at {secret_path}.")
         with open(secret_path, "r") as f:
             return f.read()
 
-    log.info("Secret not found. Creating one now.")
+    print("Secret not found. Creating one now.")
 
     secret_to_store = input(
         "Insert the secret you'd like to save and press Enter to continue...\n"
@@ -54,7 +54,7 @@ def get_secret(
 
     with open(secret_path, "w") as f:
         f.write(secret_to_store)
-        log.info("Secret saved.")
+        print("Secret saved.")
         for color in ("\033[91m", "\033[92m", "\033[94m"):
             print(
                 color + "\x1B[1m" + "Please delete the output of this cell." + "\x1b[0m"
