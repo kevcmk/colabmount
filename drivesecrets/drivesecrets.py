@@ -41,7 +41,9 @@ def get_secret(
 
     log.info("Secret not found. Creating one now.")
 
-    secret_to_store = input("Insert your secret and press Enter to continue...")
+    secret_to_store = input(
+        "Insert the secret you'd like to save and press Enter to continue...\n"
+    )
 
     with open(secret_path, "w") as f:
         f.write(secret_to_store)
