@@ -49,7 +49,7 @@ def get_secret(
     print("Secret not found. Creating one now.")
 
     secret_to_store = input(
-        "Insert the secret you'd like to save and press Enter to continue...\n"
+        f"Insert the value you'd like to save as {filename} and press Enter to continue...\n"
     )
 
     with open(secret_path, "w") as f:
