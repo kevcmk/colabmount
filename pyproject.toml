@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "drivesecrets"
-version = "1.0.1"
-description = "Save secrets in your google drive to secure your Colaboratory notebooks."
+name = "colabmount"
+version = "0.0.1"
+description = "Quickly mount a file from Google Drive in Google Colab"
 authors = ["Kevin Katz <contact@kevinkatz.io>"]
 
 # [tool.poetry.dependencies]

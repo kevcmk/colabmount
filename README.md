@@ -1,32 +1,32 @@
 # Drive Secrets
 
-Don't store secrets in plaintext in Colaboratory notebooks. Instead, store them in your Google Drive.
+Quick mount a Google Drive file in a notebook if it's running in Colab, otherwise do nothing.
 
 ## Quickstart
 
 Add the following to your Colaboratory notebook.
 
+### Simple Example
+
 ```
-!pip install drivesecrets
+!pip install colabmount
 
-from drivesecrets import get_secret
+from colabmount import mount_file
 
-# If your secret exists, get it as plaintext. If it doesn't, prompt you and save it.
-api_key = get_secret("api_key.txt")
+path = mount_file(".env", create=True)
 ```
 
-The first time that get_secret is called, you will be prompted for the secret you'd like to save. Input it and it will be saved (but delete the cell's output using, or else your input will be saved in the notebook.)
+### Dotenv Example
+```
+!pip install colabmount
 
-The second time it is called, it'll just be returned as plaintext.
+from colabmount import mount_file
 
-If you make a mistake, delete this file from your Google drive and re-invoke the function.
+load_dotenv(mount_file(".env", create=True) or ".env")
+
+secret = os.environ['SECRET']
+```
 
 ## Important
 
-The secret you save is now in plaintext in your Google Drive. Anyone with access to your Google Drive can read it as a text file.
-
-## Troubleshooting
-
-1. Help! I've input the wrong secret.
-
-The argument to get_secret is the filename under which your secret is stored. Navigate to the root of your Google Drive and delete that file. You'll be prompted again.
+The files created are in plaintext in your Google Drive. Anyone with access to your Google Drive can read them as a text file.

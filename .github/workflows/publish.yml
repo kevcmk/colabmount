@@ -1,5 +1,5 @@
-name: Publish drivesecrets
-run-name: ${{ github.actor }} is publishing drivesecrets to pypi
+name: Publish colabmount
+run-name: ${{ github.actor }} is publishing colabmount to pypi
 on:
   push:
     branches:

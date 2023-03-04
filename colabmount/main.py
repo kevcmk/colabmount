@@ -2,9 +2,8 @@
 
 import logging
 import os
-from typing import Iterable
-
-from google.colab import drive
+from pathlib import Path
+from typing import Iterable, Optional
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -16,11 +15,20 @@ DEFAULT_BASE_DIRECTORY_CANDIDATES = (
 )
 
 
-def get_secret(
+def mount_file(
     filename: str,
+    create: bool,
     base_directory_candidates: Iterable[str] = DEFAULT_BASE_DIRECTORY_CANDIDATES,
     gdrive_mount_point: str = GDRIVE_MOUNT_POINT,
-) -> str:
+) -> Optional[Path]:
+    try:
+        from google.colab import drive
+    except ImportError:
+        print("Not running on Google Colab. Skipping Google Drive mount.")
+        return None
+    else:
+        print("Running on Google Colab. Mounting Google Drive.")
+
     drive.mount(gdrive_mount_point)
 
     for base_directory_candidate in base_directory_candidates:
@@ -39,25 +47,24 @@ def get_secret(
             "Could not find a valid Google Drive directory. Tried {base_directory_candidates}"
         )
 
-    secret_path = os.path.join(google_drive_base, filename)
+    file_path = Path(google_drive_base) / filename
 
-    if os.path.exists(secret_path):
-        print(f"Found secret at {secret_path}.")
-        with open(secret_path, "r") as f:
-            return f.read()
+    if file_path.exists():
+        print(f"Found {filename} in Google Drive.")
+        return file_path
+    elif create:
+        print(f"Could not find {filename} in Google Drive. Creating it.")
+        with open(file_path, "w") as f:
+            f.write("# Include your environment variables here.\n")
+            f.write("SAMPLE_VAR=sample_value\n")
 
-    print("Secret not found. Creating one now.")
-
-    secret_to_store = input(
-        f"Insert the value you'd like to save as {filename} and press Enter to continue...\n"
-    )
-
-    with open(secret_path, "w") as f:
-        f.write(secret_to_store)
-        print("Secret saved.")
-        for color in ("\033[91m", "\033[92m", "\033[94m"):
-            print(
-                color + "\x1B[1m" + "Please delete the output of this cell." + "\x1b[0m"
-            )
-
-    return secret_to_store
+        color = "\033[94m"  # Blue
+        message = (
+            color
+            + "\x1B[1m"
+            + f"Please open {filename} in your Google Drive and add you environment variables, then re-run."
+            + "\x1b[0m"
+        )
+        raise Exception(message)
+    else:
+        return None
