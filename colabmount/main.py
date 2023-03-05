@@ -8,7 +8,10 @@ from typing import Iterable, Optional
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
+
 GDRIVE_MOUNT_POINT = "/content/gdrive"
+
+# Some users observe a space in the name MyDrive.
 DEFAULT_BASE_DIRECTORY_CANDIDATES = (
     "/content/gdrive/MyDrive",
     "/content/gdrive/My Drive",
@@ -17,10 +20,14 @@ DEFAULT_BASE_DIRECTORY_CANDIDATES = (
 
 def mount_file(
     filename: str,
-    create: bool,
+    create: bool = False,
     base_directory_candidates: Iterable[str] = DEFAULT_BASE_DIRECTORY_CANDIDATES,
     gdrive_mount_point: str = GDRIVE_MOUNT_POINT,
 ) -> Optional[Path]:
+    """
+    If running on Google Colab, mounts Google Drive and returns returns path to filename if it exists.\
+    Otherwise, return None.
+    """
     try:
         from google.colab import drive
     except ImportError:
