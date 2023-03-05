@@ -18,6 +18,10 @@ DEFAULT_BASE_DIRECTORY_CANDIDATES = (
 )
 
 
+def running_on_colab():
+    return "COLAB_RELEASE_TAG" in os.environ
+
+
 def mount_file(
     filename: str,
     create: bool = False,
@@ -28,6 +32,11 @@ def mount_file(
     If running on Google Colab, mounts Google Drive and returns returns path to filename if it exists.\
     Otherwise, return None.
     """
+
+    if not running_on_colab():
+        print("Not running on Google Colab. Skipping Google Drive mount.")
+        return None
+
     try:
         from google.colab import drive
     except ImportError:
